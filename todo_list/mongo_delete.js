@@ -23,10 +23,12 @@ MongoClient.connect("mongodb://localhost:27017/TodoApp", (err, client) => {
 
   //find one and delete and get its value back
   db.collection("Todos")
-    .findOneAndDelete({ complete: false })
+    .findOneAndDelete({ work: "eat" })
     .then(result => {
       console.log(result);
     });
 
-  //  client.close();
+  //remove the duplications
+
+  client.close();
 });
