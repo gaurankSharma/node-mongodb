@@ -7,6 +7,7 @@ const { todo } = require("./models/todo");
 const { User } = require("./models/user");
 
 const app = express();
+module.exports = { app };
 
 app.use(bodyparser.json());
 app.post("/todos", (req, res) => {
@@ -34,24 +35,24 @@ app.get("/todos", (req, res) => {
   );
 });
 //get the request with id
-app.get("/todos/:id", (req, res) => {
+app.get("/todos/:id", (req, res, next) => {
   let id = req.params.id;
   if (!ObjectId.isValid(id)) {
     res.status(404).send();
+  } else {
+    todo.findById(id).then(
+      todos => {
+        if (!todos) {
+          res.status(404).send();
+        } else {
+          res.send({ todos });
+        }
+      },
+      e => res.status(404).send()
+    );
   }
-  todo.findById(id).then(
-    todos => {
-      if (!todos) {
-        res.status(404).send("todo not find");
-      }
-      res.send({ todos });
-    },
-    e => res.status(404).send("no todo")
-  );
 });
 
 app.listen(3000, () => {
   console.log("started on 3000");
 });
-
-module.exports = { app };
