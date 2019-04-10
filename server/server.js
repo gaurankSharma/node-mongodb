@@ -5,7 +5,7 @@ const { mongoos } = require("./db/mongoose");
 const { todo } = require("./models/todo");
 const { User } = require("./models/user");
 
-app = express();
+const app = express();
 
 app.use(bodyparser.json());
 app.post("/todos", (req, res) => {
@@ -25,3 +25,5 @@ app.post("/todos", (req, res) => {
 app.listen(3000, () => {
   console.log("started on 3000");
 });
+
+module.exports = { app };
