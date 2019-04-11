@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
-require("dotenv").config();
 
 mongoose.Promise = global.Promise;
-MONGODB_URI =
+uri =
   "mongodb+srv://gaurank24:garuank@todoapp-5hpih.mongodb.net/TodoApp?retryWrites=true/";
 
-mongoose.connect(process.env.MONGODB_URI, err => {
+mongoose.connect(uri, err => {
   if (err) {
     console.log("err: ", err);
   } else {
