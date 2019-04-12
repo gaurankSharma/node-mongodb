@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyparser = require("body-parser");
 const { ObjectId } = require("mongodb");
+const _ = require("lodash");
 
 const { mongoos } = require("./db/mongoose");
 const { todo } = require("./models/todo");
@@ -52,6 +53,22 @@ app.get("/todos/:id", (req, res, next) => {
       e => res.status(404).send()
     );
   }
+});
+// post api call for users
+app.post("/user", (req, res) => {
+  let body = _.pick(req.body, ["Email", "Password"]);
+  let users = new User(body);
+  users
+    .save()
+    .then(() => {
+      return users.generateAuthToken();
+    })
+    .then(token => {
+      res.header("x-auth", token).send(users);
+    })
+    .catch(e => {
+      res.status(400).send(e);
+    });
 });
 
 app.listen(port, () => {
